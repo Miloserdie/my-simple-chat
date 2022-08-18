@@ -1,0 +1,37 @@
+.login {
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	&__table {
+		border: 2px solid rgb(60, 66, 82);
+		box-shadow: 2px 2px 5px rgb(60, 66, 82), -2px -2px 5px rgb(60, 66, 82);
+		padding: 20px;
+		display: flex;
+		flex-direction: column;
+	}
+
+	&__title {
+		color: rgb(24, 105, 105);
+		margin-bottom: 20px;
+	}
+
+	&__btn {
+		background: none;
+		border: 2px solid rgb(53, 167, 167);
+		font-weight: 700;
+		padding: 10px 15px;
+		outline: none;
+		align-self: center;
+		transition-duration: 0.3s;
+		box-shadow: 1px 1px 2px rgb(53, 167, 167);
+		font-size: 15px;
+		color: black;
+
+		&:hover {
+			background-color: rgb(53, 167, 167);
+			color: white;
+		}
+	}
+}

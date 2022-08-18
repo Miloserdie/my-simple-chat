@@ -1,0 +1,61 @@
+.users{
+
+
+	&__list-item{
+		display: flex;
+		padding: 10px;
+		border-bottom: 1px solid rgb(212, 212, 212);
+		transition-duration: 0.2s;
+
+		&:hover {
+			background-color: rgb(230, 230, 230);
+		}
+	}
+
+	&__avatar {
+		width: 40px;
+		height: 40px;
+		object-fit: cover;
+		border-radius: 50%;
+		margin-right: 10px;
+	}
+
+	&__info {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		flex-grow: 1;
+		
+	}
+
+	&__info-left {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	&__nickname {
+		-webkit-line-clamp: 1;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+		max-width: 120px;
+	}
+
+	&__time {
+		color: rgb(145, 145, 145);
+		-webkit-line-clamp: 1;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+		max-width: 65px;
+	}
+
+	&__last-msg {
+		-webkit-line-clamp: 1;
+		font-size: 13px;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+		color: rgb(160, 160, 160);
+	}
+}
