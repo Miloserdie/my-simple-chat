@@ -1,25 +1,29 @@
-import { useSelector } from "react-redux"
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import './style.scss';
+import UserItem from "./UserItem";
 
 export default function UsersList() {
 	const users = useSelector(state => state.users);
+	const messages = useSelector(state => state.messages);
+	const [asdss, sssss] = useState(Math.random())
+
+	useEffect(() => {
+		sssss(Math.random());
+	},[])
+
+	users.sort((a, b) => {
+		a = a.lastMessageDate;
+		b = b.lastMessageDate;
+		return a > b ? -1 : a < b ? 1 : 0;
+	});
 
 	return (
-		<ul className="users">
+		<ul key={asdss} className="users">
 			{
 				users?.map(user => {
 					return (
-						<li className="users__list-item" key={user.id}>
-							<img className="users__avatar" src={user.avatar} alt="" />
-							<div className="users__info">
-								<div className="users__info-left">
-									<p className="users__nickname">{`${user.firstName} ${user.lastName}`}</p>
-									<p className="users__time">1231231</p>
-									
-								</div>
-								<p className="users__last-msg">12a sdas das da sd asd</p>
-							</div>
-						</li>
+						<UserItem key={user.id} user={user} />
 					)
 				})
 			}

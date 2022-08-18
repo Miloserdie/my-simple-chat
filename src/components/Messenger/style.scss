@@ -82,6 +82,17 @@
 		width: 100%;
 		overflow: hidden;
 	}
+	&__no-user{
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+	}
+
+	&__plug {
+		color: rgb(102, 102, 102);
+
+	}
 
 	&__head {
 		border-bottom: 1px solid rgb(234, 234, 234);
@@ -160,6 +171,7 @@
 		background: none;
 		outline: none;
 		border: none;
+		cursor: pointer;
 
 		img {
 			margin-top: 4px;
