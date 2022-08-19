@@ -20,7 +20,6 @@ export async function getMessageHistoryReq(user) {
 }
 
 export async function sendMessageReq(message, user) {
-	await updateDoc(doc(db, `users/${user.id}/lastMessage`, 'message'), message);
-
+	// await updateDoc(doc(db, `users/${user.id}/lastMessage`, 'message'), message);
 	await setDoc(doc(db, `users/${user.id}/message-history`, message.id), message);
 }

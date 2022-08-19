@@ -14,7 +14,7 @@ export default function Messenger() {
 
 	useEffect(() => {
 		dispatch(getUsersReqAction());
-	}, [dispatch])
+	}, [])
 
 	return (
 		<section className='messenger'>

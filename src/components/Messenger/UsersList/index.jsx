@@ -5,12 +5,6 @@ import UserItem from "./UserItem";
 
 export default function UsersList() {
 	const users = useSelector(state => state.users);
-	const messages = useSelector(state => state.messages);
-	const [asdss, sssss] = useState(Math.random())
-
-	useEffect(() => {
-		sssss(Math.random());
-	},[])
 
 	users.sort((a, b) => {
 		a = a.lastMessageDate;
@@ -19,7 +13,7 @@ export default function UsersList() {
 	});
 
 	return (
-		<ul key={asdss} className="users">
+		<ul className="users">
 			{
 				users?.map(user => {
 					return (

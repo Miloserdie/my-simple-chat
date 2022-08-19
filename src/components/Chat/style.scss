@@ -1,0 +1,54 @@
+.messenger__message {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 20px;
+	flex-shrink: 1;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+
+	.message-text {
+		padding: 5px 15px;
+		border-radius: 15px;
+		margin-bottom: 5px;
+		max-width: 70%;
+		word-break: break-all;
+		flex-shrink: 2;
+		font-size: 15px;
+		font-weight: 100;
+	}
+
+	.message-date {
+		color: rgb(192, 192, 192);
+		font-size: 14px;
+	}
+
+	&.send-message {
+		align-self: flex-end;
+
+		.message-text {
+			align-self: flex-end;
+			background-color: rgb(224, 224, 224);
+			color: rgb(82, 82, 82);
+		}
+
+		.message-date {
+			align-self: flex-end;
+		}
+	}
+
+	&.received-message {
+		align-self: flex-start;
+
+		.message-text {
+			align-self: flex-start;
+			background-color: rgb(60, 65, 84);
+			color: rgb(255, 255, 255);
+		}
+
+		.message-date {
+			align-self: flex-start;
+		}
+	}
+}

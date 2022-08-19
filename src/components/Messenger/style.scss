@@ -126,6 +126,9 @@
 		height: 100%;
 		background-color: rgb(255, 255, 255);
 		overflow-y: auto;
+		display: flex;
+		flex-direction: column;
+		padding: 10px;
 	}
 
 	&__right-bottom {
