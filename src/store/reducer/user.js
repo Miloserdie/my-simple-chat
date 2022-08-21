@@ -5,10 +5,10 @@ const initialState = {};
 export default function userReducer(state = initialState, {type, payload}) {
 	switch(type) {
 		case ACTION_SET_USER:
-			return {
-				...payload.user,
-				messages: payload.messages
+			if(state?.id !== payload?.id) {
+				return payload
 			}
+			return state;
 		case ACTION_SET_MESAGGES:
 			return {
 				...state,
@@ -23,7 +23,7 @@ export default function userReducer(state = initialState, {type, payload}) {
 					messages: [...state.messages, payload.message]
 				}	
 			}
-			break;
+			return state;
 		default: return state;
 	}	
 }

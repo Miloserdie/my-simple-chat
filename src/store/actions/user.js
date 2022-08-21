@@ -9,10 +9,10 @@ export const ACTION_SET_MESAGGES = '[user] set messages'
 export const ACTION_ADD_MESAGGE = '[user] add message'
 
 
-export function addUserAction(user, messages) {
+export function addUserAction(user) {
 	return {
 		type: ACTION_SET_USER,
-		payload: {user, messages}
+		payload: user 
 	}
 }
 
@@ -73,8 +73,6 @@ export const sendMessageReqAction = (message, updatedUser) => async dispatch => 
 export const sendAnswerMessageReqAction = (user) => async dispatch => {
 	try {
 		const chackAnswer = await getChackNorisAnswerReq();
-
-		console.log('123', user)
 
 		const answerMessage = {
 			message: chackAnswer.value,

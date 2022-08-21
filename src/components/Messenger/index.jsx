@@ -9,13 +9,16 @@ import Chat from '../Chat';
 
 export default function Messenger() {
 	const users = useSelector(state => state.users);
-	const currentUser = useAuth();
 	const [searchValue, setSearchValue] = useState('');
 	const dispatch = useDispatch();
+	const currentUser = useAuth();
+	const [activeChat, setActiveChat] = useState('not-active')
 
-	function findUser(e) {
-		setSearchValue(e.target.value)
-	}
+	console.log(activeChat)
+
+	const filteredUsers = users?.filter(user => {
+		return `${user.lastName} ${user.firstName}`.toLowerCase().includes(searchValue.toLowerCase());
+	})
 
 	useEffect(() => {
 		dispatch(getUsersReqAction());
@@ -23,21 +26,21 @@ export default function Messenger() {
 
 	return (
 		<section className='messenger'>
-			<div className='messenger__left'>
+			<div className={`messenger__left ${activeChat}`} >
 				<div className='messenger__left-top'>
 					<div className='messenger__photo'>
 						<img src={currentUser.photo} alt="" />
 					</div>
-				<input placeholder='Search' onChange={(e) => findUser(e)} name='search' className='messenger__search' type="text" value={searchValue}/>
+				<input placeholder='Search' onChange={(e) => setSearchValue(e.target.value)} name='search' className='messenger__search' type="text" value={searchValue}/>
 				</div>
 				<div className='messenger__left-bottom'>
 					<h3 className='messenger__title-chats'>Chats</h3>
 					<div className='messenger__chats'>
-						<UsersList users={users} />
+						<UsersList activeChat={activeChat} setActiveChat={setActiveChat} users={filteredUsers} />
 					</div>
-				</div>
+				</div> 	
 			</div>
-			<Chat />
+			<Chat activeChat={activeChat} setActiveChat={setActiveChat} />
 		</section>
 	)
 }

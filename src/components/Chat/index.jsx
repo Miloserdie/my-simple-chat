@@ -3,18 +3,19 @@ import { useEffect, useRef, useState } from "react";
 import { getMesssagesHistoryReqAction, sendMessageReqAction } from "../../store/actions/user";
 import './style.scss'
 
-export default function Chat() {
+export default function Chat({activeChat, setActiveChat}) {
 	const [messageValue, setMessageValue] = useState('');
 	const user = useSelector(state => state.user);
 	const messages = useSelector(state => state.user.messages)
 	const dispatch = useDispatch();
 	const chatScrollEnd = useRef(null);
+	
 
 	const scrollToBottom = () => {
 		chatScrollEnd.current?.scrollIntoView({
-		  behavior: 'smooth',
-		  block: 'end',
-		  inline: 'end',
+		  	behavior: 'smooth',
+			block: 'end',
+			inline: 'nearest',
 		});
 	}
 
@@ -56,23 +57,30 @@ export default function Chat() {
 	useEffect(() => {
 		dispatch(getMesssagesHistoryReqAction(user));
 		
-		scrollToBottom();
-		
 		setMessageValue('');
+	}, [user.id]);
 
-	}, [user.id, user.messages?.length]);
+
+	useEffect(() => {
+		scrollToBottom();
+	}, [user.messages?.length])
 
 	return !user.firstName ? (
-		<div className="messenger__no-user">
-			<div className="messenger__plug">Select a chat to start conversation</div>
+		<div className={`messenger__right ${activeChat}`}>
+			<div className="messenger__no-user">
+				<div className="messenger__plug">Select a chat to start conversation</div>
+			</div>
 		</div>
 	) : (
-		<div className='messenger__right'>
+		<div className={`messenger__right ${activeChat}`}>
 			<div className='messenger__head'>
-				<img className='messenger__friend-avatar' src={user?.avatar} alt="" />
-				<p className='messenger__friend-nick'>
-					{`${user?.firstName} ${user?.lastName}`}
-				</p>
+				<div className="messenger__head-info">
+					<img className='messenger__friend-avatar' src={user?.avatar} alt="" />
+					<p className='messenger__friend-nick'>
+						{`${user?.firstName} ${user?.lastName}`}
+					</p>
+				</div>
+				<button onClick={() => setActiveChat('not-active')} className="messenger__head-back-btn">back</button>
 			</div>
 			<div className='messenger__chat' >
 				<ul>

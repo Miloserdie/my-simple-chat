@@ -1,11 +1,13 @@
 import { useDispatch } from "react-redux/es/exports";
-import { addUserReqAction } from "../../store/actions/user";
+import { addUserAction } from "../../store/actions/user";
 
-export default function UserItem({user}) {
+export default function UserItem({user, setActiveChat}) {
 	const dispatch = useDispatch();
 
 	function openChat() {
-		dispatch(addUserReqAction(user));
+		dispatch(addUserAction(user));
+
+		setActiveChat('active')
 	}
 
 	return (

@@ -87,18 +87,28 @@
 		align-items: center;
 		justify-content: center;
 		width: 100%;
+		height: 100%;
 	}
 
 	&__plug {
 		color: rgb(102, 102, 102);
-
 	}
 
 	&__head {
 		border-bottom: 1px solid rgb(234, 234, 234);
 		display: flex;
-		align-items: center;
+		justify-content: space-between;
 		padding: 10px 15px;
+	}
+
+	&__head-info {
+		display: flex;
+		align-items: center;
+	}
+
+	&__head-back-btn {
+		padding: 5px 15px;
+		display: none;
 	}
 
 	&__friend-avatar {
@@ -182,6 +192,30 @@
 			height: 20px;
 		}
 	}
-	}
+}
 
-	
+
+@media screen and (max-width:575px) {
+	.messenger {
+
+		&__left {
+			width: 100%;
+
+			&.active {
+				display: none;
+			}
+		}
+
+		&__right {
+			display: none;
+
+			&.active {
+				display: flex;
+
+				.messenger__head-back-btn {
+					display: block;
+				}
+			}
+		}
+	}
+}
