@@ -13,7 +13,6 @@ export default function Chat({activeChat, setActiveChat}) {
 
 	const scrollToBottom = () => {
 		chatScrollEnd.current?.scrollIntoView({
-		  	behavior: 'smooth',
 			block: 'end',
 			inline: 'nearest',
 		});

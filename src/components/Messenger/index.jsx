@@ -14,8 +14,6 @@ export default function Messenger() {
 	const currentUser = useAuth();
 	const [activeChat, setActiveChat] = useState('not-active')
 
-	console.log(activeChat)
-
 	const filteredUsers = users?.filter(user => {
 		return `${user.lastName} ${user.firstName}`.toLowerCase().includes(searchValue.toLowerCase());
 	})
