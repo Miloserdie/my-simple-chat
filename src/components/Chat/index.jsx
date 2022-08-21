@@ -1,31 +1,35 @@
 import { useDispatch, useSelector } from "react-redux/es/exports";
-import { sendMessageReqAction } from "../../store/actions/messages";
-import { useEffect, useState } from "react";
-import { getMesssagesHistoryReqAction } from "../../store/actions/messages";
-import { updateUserReqAction } from "../../store/actions/users";
+import { useEffect, useRef, useState } from "react";
+import { getMesssagesHistoryReqAction, sendMessageReqAction } from "../../store/actions/user";
 import './style.scss'
 
 export default function Chat() {
 	const [messageValue, setMessageValue] = useState('');
 	const user = useSelector(state => state.user);
-	const messages = useSelector(state => state.messages);
-	const dispatch = useDispatch()
+	const messages = useSelector(state => state.user.messages)
+	const dispatch = useDispatch();
+	const chatScrollEnd = useRef(null);
 
-	useEffect(() => {
-		dispatch(getMesssagesHistoryReqAction(user));
+	const scrollToBottom = () => {
+		chatScrollEnd.current?.scrollIntoView({
+		  behavior: 'smooth',
+		  block: 'end',
+		  inline: 'end',
+		});
+	}
 
-	}, [user.id])
-
-	messages.sort((a, b) => {
+	messages?.sort((a, b) => {
 		a = a.date;
 		b = b.date;
 		return a > b ? 1 : a < b ? -1 : 0;
-	});
+	})
+
 	function sendMessage(e) {
 		e.preventDefault()
 
 		if(!messageValue.trim()) {
 			setMessageValue('');
+
 			return
 		}
 		
@@ -34,28 +38,29 @@ export default function Chat() {
 			status: 'send',
 			date: new Date().toString().substring(3, 24),
 			id: Math.random().toString(20).substring(2),
+			userId: user.id
 		}
 
 		const updateUser = {
+			...user,
 			lastMessageDate: message.date,
-			lastMessage: messageValue.trim()
+			lastMessage: messageValue.trim(),
+			messages: []
 		}
 
-		const updateUserForStore = {
-			avatar: user.avatar,
-			firstName: user.firstName,
-			id: user.id,
-			lastName: user.lastName,
-			lastMessageDate: message.date,
-			lastMessage: messageValue.trim()
-		}
+		dispatch(sendMessageReqAction(message, updateUser));
 
-		dispatch(sendMessageReqAction(message, user));
-
-		dispatch(updateUserReqAction(updateUserForStore, updateUser, user.id));
-		
 		setMessageValue('');
 	}
+
+	useEffect(() => {
+		dispatch(getMesssagesHistoryReqAction(user));
+		
+		scrollToBottom();
+		
+		setMessageValue('');
+
+	}, [user.id, user.messages?.length]);
 
 	return !user.firstName ? (
 		<div className="messenger__no-user">
@@ -69,7 +74,8 @@ export default function Chat() {
 					{`${user?.firstName} ${user?.lastName}`}
 				</p>
 			</div>
-			<div className='messenger__chat'>
+			<div className='messenger__chat' >
+				<ul>
 				{
 					messages?.map(message => {
 						return (
@@ -80,6 +86,8 @@ export default function Chat() {
 						)
 					})
 				}
+				</ul>
+				<span ref={chatScrollEnd}></span>
 			</div>
 			<div className='messenger__right-bottom'>
 				<form onSubmit={sendMessage} className='messenger__message-form'>

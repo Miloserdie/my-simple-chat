@@ -12,6 +12,6 @@ export async function getUsersReq() {
 	)
 }
 
-export async function updateUserReq(user, id) {
-	await updateDoc(doc(db, USERS_URL, id), user);
+export async function updateUserReq(user) {
+	await updateDoc(doc(db, USERS_URL, user.id), user);
 }

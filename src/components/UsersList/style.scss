@@ -9,15 +9,6 @@
 
 		&:hover {
 			background-color: rgb(230, 230, 230);
-
-			.users__last-msg {
-
-
-				&::before,
-				&::after {
-					background-color: rgb(230, 230, 230);
-				}
-			}
 		}
 	}
 
@@ -64,28 +55,9 @@
 		font-size: 13px;
 		overflow: hidden;
 		color: rgb(160, 160, 160);
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 1;
 		position: relative; 
-		text-align: justify;
-
-		&::before,
-		&::after {
-			position: absolute;
-			right: 0;
-			background: white;
-			transition-duration: 0.2s;
-		}
-
-		&::before {
-			content: '...';
-			color: rgb(160, 160, 160);
-  			bottom: 0;
-
-		}
-		&::after {
-			content: "";
-			width: 1em;
-			height: 1em;
-			margin-top: 0.2em;
-		 }
 	}
 }

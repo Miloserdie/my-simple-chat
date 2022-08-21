@@ -9,10 +9,12 @@ export default function usersReducer(state = initialState, {type, payload}) {
 		case ACTION_UPDATE_USER:
 			return [...state.map((user) => {
 				if(user.id === payload.id) {
-					console.log('1111111', payload.user)
-					return payload.user;
+					return {
+						...user,
+						lastMessageDate: payload.user.lastMessageDate,
+						lastMessage:payload.user.lastMessage
+					};
 				}
-				console.log('222222222', payload.user)
 				return user;
 			})]
 		default: return state;

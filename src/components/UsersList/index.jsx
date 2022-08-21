@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import './style.scss';
-import UserItem from "./UserItem";
+import UserItem from "../UserItem";
 
 export default function UsersList() {
 	const users = useSelector(state => state.users);

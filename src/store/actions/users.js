@@ -1,4 +1,4 @@
-import { getUsersReq, updateUserReq } from "../../api/usersApi";
+import { getUsersReq } from "../../api/usersApi";
 
 export const ACTION_SET_USERS = '[users] set users';
 export const ACTION_UPDATE_USER = '[users] update user'
@@ -22,16 +22,6 @@ export const getUsersReqAction = () => async dispatch => {
 		const users = await getUsersReq(); 
 
 	  dispatch(addUsersAction(users));
-	} catch (err) {
-		console.warn(err);
-	}
-}
-
-export const updateUserReqAction = (updateUserForStore, user, id) => async dispatch => {
-	try {
-		await updateUserReq(user, id);
-
-		dispatch(updateUserAction(updateUserForStore, id));
 	} catch (err) {
 		console.warn(err);
 	}
