@@ -1,8 +1,8 @@
 import { collection, getDocs, doc, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
 
-export async function getMessageHistoryReq(user) {
-	const docs = await getDocs(collection(db, `users/${user.id}/message-history`));
+export async function getMessageHistoryReq(id) {
+	const docs = await getDocs(collection(db, `users/${id}/message-history`));
 
 	return docs.docs.map((message) => {
 		return ({...message.data()});

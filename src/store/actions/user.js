@@ -1,7 +1,7 @@
 import { getChackNorisAnswerReq } from "../../api/chackNoris";
 import { getMessageHistoryReq, sendMessageReq } from "../../api/messages";
-import { updateUserReq } from "../../api/usersApi";
-import { updateUserAction } from "./users";
+import { getUsersReq, updateUserReq } from "../../api/usersApi";
+import { updateUserAction, userCheckMessageAction } from "./users";
 import { generateRandomInteger } from "../../utils/generateRandomInteger";
 
 export const ACTION_SET_USER = '[user] set user';
@@ -23,22 +23,46 @@ export function getMessagesAction(messages) {
 	}
 }
 
-export function addMessageAction(message, updatedUser) {
+export function addMessageAction(message) {
 	return {
 		type: ACTION_ADD_MESAGGE,
-		payload: {message, updatedUser}
+		payload: {message}
 	}
 }
 
-export const addUserReqAction = (user) => async dispatch => {
-	const messages = await getMessageHistoryReq(user);
+export const addUserReqAction = (id) => async dispatch => {
+	try {
+		const users = await getUsersReq();
 
-	dispatch(addUserAction(user, messages))
+		const user = users.filter((user) => {
+			return user.id === id;
+		})
+
+		dispatch(addUserAction(...user))
+	} catch (err) {
+		console.warn(err)
+	}
 }
 
-export const getMesssagesHistoryReqAction = (user) => async dispatch => {
+export const updateUserCheckedReqACtion = (user) => async dispatch => {
+	
+	const userChecked = {
+		...user,
+		isLastMessageChecked: true
+	}
+
 	try {
-		const messages = await getMessageHistoryReq(user);
+		await updateUserReq(userChecked);
+
+		dispatch(userCheckMessageAction(userChecked));
+	} catch (err) {
+		console.warn(err)
+	}
+}
+
+export const getMesssagesHistoryReqAction = (id) => async dispatch => {
+	try {
+		const messages = await getMessageHistoryReq(id);
 
 		dispatch(getMessagesAction(messages));
 	} catch (err) {
@@ -52,18 +76,13 @@ export const sendMessageReqAction = (message, updatedUser) => async dispatch => 
 
 		await updateUserReq(updatedUser);
 
-	 	dispatch(addMessageAction(message, updatedUser));
+	 	dispatch(addMessageAction(message));
 
 		dispatch(updateUserAction(updatedUser, updatedUser.id));
 
-		function doSetTimeout(x) {
-
-			setTimeout(() => {
-				dispatch(sendAnswerMessageReqAction(x))
-			}, generateRandomInteger(10000, 14000));
-		}
-
-		doSetTimeout(updatedUser);
+		setTimeout(() => {
+			dispatch(sendAnswerMessageReqAction(updatedUser))
+		}, generateRandomInteger(10000, 14000));
 
 	} catch (err) {
 		console.warn(err);
@@ -76,7 +95,7 @@ export const sendAnswerMessageReqAction = (user) => async dispatch => {
 
 		const answerMessage = {
 			message: chackAnswer.value,
-			status: 'reseived',
+			status: 'received',
 			date: new Date().toString().substring(3, 24),
 			id: Math.random().toString(20).substring(2),
 			userId: user.id
@@ -86,6 +105,7 @@ export const sendAnswerMessageReqAction = (user) => async dispatch => {
 			...user,
 			lastMessageDate: answerMessage.date,
 			lastMessage: answerMessage.message,
+			isLastMessageChecked: false,
 			messages: []
 		}
 
@@ -95,7 +115,7 @@ export const sendAnswerMessageReqAction = (user) => async dispatch => {
 
 		dispatch(addMessageAction(answerMessage, user.id));
 
-		dispatch(updateUserAction(updatedUser, updatedUser.id));
+		dispatch(updateUserAction(updatedUser, updatedUser.id, answerMessage));
 	} catch (err) {
 		console.warn(err);
 	}

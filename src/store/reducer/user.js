@@ -18,8 +18,9 @@ export default function userReducer(state = initialState, {type, payload}) {
 			if(state.id === payload.message.userId) {
 				return {
 					...state,
-					lastMessageDate: payload.updatedUser.lastMessageDate,
-					lastMessage: payload.updatedUser.lastMessage,
+					lastMessageDate: payload.message.date,
+					lastMessage: payload.message.message,
+					isLastMessageChecked: true,
 					messages: [...state.messages, payload.message]
 				}	
 			}

@@ -92,6 +92,10 @@
 
 	&__plug {
 		color: rgb(102, 102, 102);
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 
 	&__head {
@@ -198,11 +202,19 @@
 @media screen and (max-width:575px) {
 	.messenger {
 
+		&__plug {
+			display: none;
+		}
+
 		&__left {
 			width: 100%;
+			transition-delay: 0.1s;
+			transition-duration: 0.2s;
 
-			&.active {
-				display: none;
+			&.inactive {
+				background: white;
+				transform: translate(-50px);	
+				width: 0;
 			}
 		}
 

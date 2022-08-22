@@ -2,6 +2,7 @@ import { getUsersReq } from "../../api/usersApi";
 
 export const ACTION_SET_USERS = '[users] set users';
 export const ACTION_UPDATE_USER = '[users] update user'
+export const ACTION_CHECKED_MESSAGE = '[users] user checked message'
 
 export function addUsersAction(users) {
 	return {
@@ -10,10 +11,17 @@ export function addUsersAction(users) {
 	}
 }
 
-export function updateUserAction(user, id) {
+export function updateUserAction(user, id, message) {
 	return {
 		type: ACTION_UPDATE_USER,
-		payload: {user, id}
+		payload: {user, id, message}
+	}
+}
+
+export function userCheckMessageAction(user) {
+	return {
+		type: ACTION_CHECKED_MESSAGE,
+		payload: user
 	}
 }
 

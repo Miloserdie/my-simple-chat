@@ -1,16 +1,20 @@
 import { useDispatch, useSelector } from "react-redux/es/exports";
 import { useEffect, useRef, useState } from "react";
-import { getMesssagesHistoryReqAction, sendMessageReqAction } from "../../store/actions/user";
+import { addUserReqAction, getMesssagesHistoryReqAction, sendMessageReqAction, updateUserCheckedReqACtion } from "../../store/actions/user";
 import './style.scss'
+import { useParams } from "react-router-dom";
+import { changeChatStatusFalseAction } from "../../store/actions/chatStatus";
 
-export default function Chat({activeChat, setActiveChat}) {
+export default function Chat() {
 	const [messageValue, setMessageValue] = useState('');
+	const chatStatus = useSelector(state => state.chatStatus.status)
 	const user = useSelector(state => state.user);
-	const messages = useSelector(state => state.user.messages)
+	const messages = user.messages;
 	const dispatch = useDispatch();
 	const chatScrollEnd = useRef(null);
+	const { id } = useParams();
+	const activeChat = chatStatus ? 'active' : ''
 	
-
 	const scrollToBottom = () => {
 		chatScrollEnd.current?.scrollIntoView({
 			block: 'end',
@@ -51,27 +55,27 @@ export default function Chat({activeChat, setActiveChat}) {
 		dispatch(sendMessageReqAction(message, updateUser));
 
 		setMessageValue('');
+
 	}
 
 	useEffect(() => {
-		dispatch(getMesssagesHistoryReqAction(user));
+		dispatch(addUserReqAction(id));
+		dispatch(getMesssagesHistoryReqAction(id));
 		
 		setMessageValue('');
-	}, [user.id]);
-
+	}, [id]);
 
 	useEffect(() => {
 		scrollToBottom();
-	}, [user.messages?.length])
 
-	return !user.firstName ? (
-		<div className={`messenger__right ${activeChat}`}>
-			<div className="messenger__no-user">
-				<div className="messenger__plug">Select a chat to start conversation</div>
-			</div>
-		</div>
-	) : (
-		<div className={`messenger__right ${activeChat}`}>
+		if(id === user.id) {
+			dispatch(updateUserCheckedReqACtion(user))
+		}
+
+	}, [user.messages?.length, id])
+
+	return (
+		<div className={`messenger__right ${activeChat} `}>
 			<div className='messenger__head'>
 				<div className="messenger__head-info">
 					<img className='messenger__friend-avatar' src={user?.avatar} alt="" />
@@ -79,7 +83,7 @@ export default function Chat({activeChat, setActiveChat}) {
 						{`${user?.firstName} ${user?.lastName}`}
 					</p>
 				</div>
-				<button onClick={() => setActiveChat('not-active')} className="messenger__head-back-btn">back</button>
+				<button onClick={() => dispatch(changeChatStatusFalseAction())} className="messenger__head-back-btn">back</button>
 			</div>
 			<div className='messenger__chat' >
 				<ul>
