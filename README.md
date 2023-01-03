@@ -1,3 +1,5 @@
+Задеплоено сюди https://simple-site-4c3a0.web.app
+
 The project was built on React and used several dependencies:
 React-router-dom and react-redux. Used Firebase for authorization and 
 database. After authorization, you get to a page with several chats, after
